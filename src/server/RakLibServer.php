@@ -93,7 +93,7 @@ class RakLibServer extends \Thread{
 
 	/**
 	 * @param string               $autoloaderPath   Path to Composer autoloader
-	 * @param int[]|null           $protocolVersions Optional custom protocol versions to use, defaults to current RakLib's protocol
+	 * @param int[]|null           $protocolVersions optinal custom protocol versions to use, defaults to current RakLib's protocol it will need to be in order from minimum to maximum
 	 */
 	public function __construct(\ThreadedLogger $logger, string $autoloaderPath, InternetAddress $address, int $maxMtuSize = 1492, array $protocoVersions = [], ?SleeperNotifier $sleeper = null){
 		$this->address = $address;
