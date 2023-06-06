@@ -85,17 +85,17 @@ class RakLibServer extends \Thread{
 	protected $serverId = 0;
 	/** @var int */
 	protected $maxMtuSize;
-	/** @var int */
-	private $protocolVersion;
+	/** @var int[] */
+	private $protocolVersions;
 
 	/** @var SleeperNotifier|null */
 	protected $mainThreadNotifier;
 
 	/**
-	 * @param string               $autoloaderPath Path to Composer autoloader
-	 * @param int|null             $overrideProtocolVersion Optional custom protocol version to use, defaults to current RakLib's protocol
+	 * @param string               $autoloaderPath   Path to Composer autoloader
+	 * @param int[]|null           $protocolVersions Optional custom protocol versions to use, defaults to current RakLib's protocol
 	 */
-	public function __construct(\ThreadedLogger $logger, string $autoloaderPath, InternetAddress $address, int $maxMtuSize = 1492, ?int $overrideProtocolVersion = null, ?SleeperNotifier $sleeper = null){
+	public function __construct(\ThreadedLogger $logger, string $autoloaderPath, InternetAddress $address, int $maxMtuSize = 1492, array $protocoVersions = [], ?SleeperNotifier $sleeper = null){
 		$this->address = $address;
 
 		$this->serverId = mt_rand(0, PHP_INT_MAX);
@@ -116,7 +116,7 @@ class RakLibServer extends \Thread{
 			$this->mainPath = $realCwd . DIRECTORY_SEPARATOR;
 		}
 
-		$this->protocolVersion = $overrideProtocolVersion ?? RakLib::DEFAULT_PROTOCOL_VERSION;
+		$this->protocolVersions = !empty($protocolVersions) ? $protocolVersions : RakLib::DEFAULT_PROTOCOL_VERSION;
 
 		$this->mainThreadNotifier = $sleeper;
 	}
@@ -136,8 +136,8 @@ class RakLibServer extends \Thread{
 		return $this->serverId;
 	}
 
-	public function getProtocolVersion() : int{
-		return $this->protocolVersion;
+	public function getProtocolVersions() : array{
+		return $this->protocolVersions;
 	}
 
 	public function getLogger() : \ThreadedLogger{
