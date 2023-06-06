@@ -139,8 +139,8 @@ class SessionManager{
 		return $this->maxMtuSize;
 	}
 
-	public function getProtocolVersion() : int{
-		return $this->server->getProtocolVersion();
+	public function getProtocolVersions() : array{
+		return $this->server->getProtocolVersions();
 	}
 
 	public function getLogger() : \ThreadedLogger{
